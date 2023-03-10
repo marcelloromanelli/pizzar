@@ -21,10 +21,10 @@ export function calculateDistance(lat1, lon1, lat2, lon2) {
 
 export function getAngle(
   alpha,
-  target_lat,
-  target_lon,
   current_lat,
-  current_lon
+  current_lon,
+  target_lat,
+  target_lon
 ) {
   // Calculate the bearing angle from your current location to the target location
   const delta_lon = target_lon - current_lon;
@@ -57,4 +57,4 @@ export async function getCurrentPosition() {
     lat: pos.coords.latitude,
     long: pos.coords.longitude,
   };
-};
+}
