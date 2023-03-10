@@ -35,12 +35,10 @@ window.onload = async () => {
 
   // Listen for device orientation events
 
-  if (typeof DeviceOrientationEvent.requestPermission === "function") {
-    const grantAccess = document.getElementById("grant-access");
-    grantAccess.addEventListener("click", permission);
-  } else {
-    window.addEventListener("deviceorientation", handleOrientation);
-  }
+  const grantAccess = document.getElementById("grant-access");
+  grantAccess.addEventListener("touchend", permission);
+
+  window.addEventListener("deviceorientation", handleOrientation);
 
   // Function to handle device orientation events
   function handleOrientation(event) {
