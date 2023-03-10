@@ -1,6 +1,25 @@
 import { getAngle, calculateDistance, getCurrentPosition } from "./utils.js";
 
 window.onload = async () => {
+  function permission() {
+    if (
+      typeof DeviceMotionEvent !== "undefined" &&
+      typeof DeviceMotionEvent.requestPermission === "function"
+    ) {
+      // (optional) Do something before API request prompt.
+      DeviceMotionEvent.requestPermission()
+        .then((response) => {
+          // (optional) Do something after API prompt dismissed.
+          if (response == "granted") {
+            window.addEventListener("deviceorientation", handleOrientation);
+          }
+        })
+        .catch(console.error);
+    } else {
+      alert("DeviceMotionEvent is not defined");
+    }
+  }
+
   // Closest pizza place
   const pizzaLat = 52.53291;
   const pizzaLong = 13.40868;
@@ -17,22 +36,16 @@ window.onload = async () => {
   // Listen for device orientation events
 
   if (typeof DeviceOrientationEvent.requestPermission === "function") {
-    // Code to request permission and add event listener
-    DeviceOrientationEvent.requestPermission().then((permissionState) => {
-      if (permissionState === "granted") {
-        window.addEventListener("deviceorientation", handleOrientation);
-      }
-    });
+    const grantAccess = document.getElementById("grant-access");
+    grantAccess.addEventListener("click", permission);
   } else {
     window.addEventListener("deviceorientation", handleOrientation);
-    // Code to handle lack of support for requestPermission
   }
+
   // Function to handle device orientation events
   function handleOrientation(event) {
     // Get the alpha, beta, and gamma values from the event
     const alpha = event.alpha;
-    const beta = event.beta;
-    const gamma = event.gamma;
 
     const angle = getAngle(alpha, pizzaLat, pizzaLong, lat, long);
     // Rotate the needle based on the alpha value
