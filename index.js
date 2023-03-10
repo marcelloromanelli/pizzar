@@ -15,8 +15,18 @@ window.onload = async () => {
   const needle = document.getElementById("needle");
 
   // Listen for device orientation events
-  window.addEventListener("deviceorientation", handleOrientation);
 
+  if (typeof DeviceOrientationEvent.requestPermission === "function") {
+    // Code to request permission and add event listener
+    DeviceOrientationEvent.requestPermission().then((permissionState) => {
+      if (permissionState === "granted") {
+        window.addEventListener("deviceorientation", handleOrientation);
+      }
+    });
+  } else {
+    window.addEventListener("deviceorientation", handleOrientation);
+    // Code to handle lack of support for requestPermission
+  }
   // Function to handle device orientation events
   function handleOrientation(event) {
     // Get the alpha, beta, and gamma values from the event
